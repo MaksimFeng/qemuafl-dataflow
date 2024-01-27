@@ -114,6 +114,8 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
                  * fuzzing stability or performance problems.
                  */
                 tb_flush(cpu);
+                print_insn_alpha(cpu, db->pc_next);
+                print("afl_entry_point: " TARGET_FMT_lx "\n", afl_entry_point)
                 first = false;
             }
             gen_helper_afl_entry_routine(cpu_env);
