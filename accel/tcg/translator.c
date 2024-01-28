@@ -116,7 +116,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
                 tb_flush(cpu);
                 // print_insn_alpha(cpu, db->pc_next);
                 printf("afl_entry_point: " TARGET_FMT_lx "\n", afl_entry_point);
-                // printf("afl_entry_point: " TARGET_FMT_lx "\n", db->pc_next);
+                printf("afl_entry_point: " TARGET_FMT_lx "\n", db->pc_next);
                 first = false;
             }
             gen_helper_afl_entry_routine(cpu_env);
