@@ -965,7 +965,10 @@ static void afl_wait_tsl(CPUState *cpu, int fd) {
     tb = afl_tb_lookup(cpu, t.tb.pc, t.tb.cs_base, t.tb.flags, t.tb.cf_mask);
     if(getenv("AFL_PC_ADDRESS")) {
       fprintf(stderr, "tb_lookup: %p\n", tb);
-      fprintf(stderr, "PC_lookup: %p\n", tb->pc);
+      if(tb!=NULL){
+        target_ulong tb_pc = tb->pc;
+        fprintf(stderr, "tb_pc: %lu\n", tb_pc);
+      }
     }
     if (!tb) {
 
