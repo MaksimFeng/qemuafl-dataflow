@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "osdep.h": "c",
-    "typedefs.h": "c"
+    "typedefs.h": "c",
+    "*.inc": "c"
   }
 }

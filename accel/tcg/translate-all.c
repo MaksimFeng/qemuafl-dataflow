@@ -2089,6 +2089,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
     tcg_func_start(tcg_ctx);
 
     tcg_ctx->cpu = env_cpu(env);
+    if(getenv("AFL_PC_ADDRESS")){
+        fprintf(stderr, "AFL_PC_ADDRESS: %lu\n", pc);
+        }
     afl_gen_trace(pc);
     gen_intermediate_code(cpu, tb, max_insns);
     tcg_ctx->cpu = NULL;
