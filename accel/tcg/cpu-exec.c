@@ -963,7 +963,9 @@ static void afl_wait_tsl(CPUState *cpu, int fd) {
     if (t.tb.pc == (target_ulong)(-1)) return;
 
     tb = afl_tb_lookup(cpu, t.tb.pc, t.tb.cs_base, t.tb.flags, t.tb.cf_mask);
-
+    if(getenv("AFL_PC_ADDRESS")) {
+      fprintf(stderr, "tb_lookup: %p\n", tb);
+    }
     if (!tb) {
 
       /* The child may request to transate a block of memory that is not
