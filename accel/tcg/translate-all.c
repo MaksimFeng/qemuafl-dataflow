@@ -2096,7 +2096,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
     if(getenv("AFL_PC_ADDRESS")){
         fprintf(stderr, "AFL_PC_ADDRESS: %lu\n", pc);
         }
-    afl_gen_trace(pc,MAX_INSNS);
+    afl_gen_trace(pc,max_insns);
     //CHANGE THE CODE ACCORING TO THE MAXSIMUM INSTRUCTIONS
     gen_intermediate_code(cpu, tb, max_insns);
     tcg_ctx->cpu = NULL;
