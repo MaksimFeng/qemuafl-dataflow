@@ -78,7 +78,7 @@ struct generic_api_regs { int v; };
   #define INC_AFL_AREA(loc) afl_area_ptr[loc]++
 #endif
 
-#define UPDATE_AFL_AREA(loc, v) afl_area_ptr[loc] += n
+#define UPDATE_AFL_AREA(loc, n) afl_area_ptr[loc] += n
 
 typedef void (*afl_persistent_hook_fn)(struct api_regs *regs,
                                        uint64_t guest_base,
