@@ -88,16 +88,18 @@ static int afl_track_unstable_log_fd(void) {
 void HELPER(afl_maybe_log)(target_ulong cur_loc) {
   register uintptr_t afl_idx = cur_loc ^ afl_prev_loc;
 
-  INC_AFL_AREA(afl_idx);
+//   INC_AFL_AREA(afl_idx);
+  UPDATE_AFL_AREA(afl_idx,size);
 
   // afl_prev_loc = ((cur_loc & (MAP_SIZE - 1) >> 1)) |
   //                ((cur_loc & 1) << ((int)ceil(log2(MAP_SIZE)) -1));
   afl_prev_loc = cur_loc >> 1;
 }
 
-void HELPER(afl_maybe_log_trace)(target_ulong cur_loc) {
+void HELPER(afl_maybe_log_trace)(target_ulong cur_loc, unsigned int size) {
   register uintptr_t afl_idx = cur_loc;
-  INC_AFL_AREA(afl_idx);
+//   INC_AFL_AREA(afl_idx);
+  UPDATE_AFL_AREA(afl_idx,size);
 }
 
 static target_ulong pc_hash(target_ulong x) {
@@ -108,7 +110,7 @@ static target_ulong pc_hash(target_ulong x) {
 }
 
 /* Generates TCG code for AFL's tracing instrumentation. */
-static void afl_gen_trace(target_ulong cur_loc) {
+static void afl_gen_trace(target_ulong cur_loc, unsigned int size) {
 
   /* Optimize for cur_loc > afl_end_code, which is the most likely case on
      Linux systems. */
@@ -134,9 +136,11 @@ static void afl_gen_trace(target_ulong cur_loc) {
 
   TCGv cur_loc_v = tcg_const_tl(cur_loc);
   if (unlikely(afl_track_unstable_log_fd() >= 0)) {
-    gen_helper_afl_maybe_log_trace(cur_loc_v);
+    // gen_helper_afl_maybe_log_trace(cur_loc_v);
+    gen_helper_afl_maybe_log_trace(cur_loc_v, size);
   } else {
-    gen_helper_afl_maybe_log(cur_loc_v);
+    // gen_helper_afl_maybe_log(cur_loc_v);
+    gen_helper_afl_maybe_log(cur_loc_v,size);
   }
   tcg_temp_free(cur_loc_v);
 
@@ -2092,7 +2096,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
     if(getenv("AFL_PC_ADDRESS")){
         fprintf(stderr, "AFL_PC_ADDRESS: %lu\n", pc);
         }
-    afl_gen_trace(pc);
+    afl_gen_trace(pc,MAX_INSNS);
+    //CHANGE THE CODE ACCORING TO THE MAXSIMUM INSTRUCTIONS
     gen_intermediate_code(cpu, tb, max_insns);
     tcg_ctx->cpu = NULL;
     max_insns = tb->icount;
