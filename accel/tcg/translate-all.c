@@ -20,7 +20,7 @@
 #include "qemu/osdep.h"
 #include "qemu/units.h"
 #include "qemu-common.h"
-typedef unsigned int size;
+typedef unsigned int AREA_SIZE;
 
 #define NO_CPU_IO_DEFS
 #include "cpu.h"
@@ -85,18 +85,18 @@ static int afl_track_unstable_log_fd(void) {
     return track_fd;
 }
 
-void HELPER(afl_maybe_log)(target_ulong cur_loc) {
+void HELPER(afl_maybe_log)(target_ulong cur_loc, AREA_SIZE size) {
   register uintptr_t afl_idx = cur_loc ^ afl_prev_loc;
 
 //   INC_AFL_AREA(afl_idx);
-  UPDATE_AFL_AREA(afl_idx,size);
+  UPDATE_AFL_AREA(afl_idx, size);
 
   // afl_prev_loc = ((cur_loc & (MAP_SIZE - 1) >> 1)) |
   //                ((cur_loc & 1) << ((int)ceil(log2(MAP_SIZE)) -1));
   afl_prev_loc = cur_loc >> 1;
 }
 
-void HELPER(afl_maybe_log_trace)(target_ulong cur_loc, unsigned int size) {
+void HELPER(afl_maybe_log_trace)(target_ulong cur_loc, AREA_SIZE size) {
   register uintptr_t afl_idx = cur_loc;
 //   INC_AFL_AREA(afl_idx);
   UPDATE_AFL_AREA(afl_idx,size);
@@ -110,7 +110,7 @@ static target_ulong pc_hash(target_ulong x) {
 }
 
 /* Generates TCG code for AFL's tracing instrumentation. */
-static void afl_gen_trace(target_ulong cur_loc, unsigned int size) {
+static void afl_gen_trace(target_ulong cur_loc, AREA_SIZE size) {
 
   /* Optimize for cur_loc > afl_end_code, which is the most likely case on
      Linux systems. */
