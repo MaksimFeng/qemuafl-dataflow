@@ -59,6 +59,10 @@
   "files.associations": {
     "osdep.h": "c",
     "typedefs.h": "c",
-    "*.inc": "c"
+    "*.inc": "c",
+    "array": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "utility": "c"
   }
 }
