@@ -68,7 +68,7 @@
 #include "qemuafl/imported/afl_hash.h"
 
 #include <math.h>
-
+#define unsigned int size
 __thread int cur_block_is_good;
 
 static int afl_track_unstable_log_fd(void) {

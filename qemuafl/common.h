@@ -45,7 +45,6 @@
 #define TSL_FD (FORKSRV_FD - 1)
 
 #define AFL_G2H g2h_untagged
-#define unsigned long size
 #if defined(TARGET_X86_64)
 #define api_regs x86_64_regs
 #elif defined(TARGET_I386)
@@ -99,6 +98,7 @@ struct vmrange {
 extern struct vmrange* afl_instr_code;
 extern unsigned char  *afl_area_ptr;
 extern unsigned int    afl_inst_rms;
+extern unsigned int    size;
 extern abi_ulong       afl_entry_point, afl_start_code, afl_end_code;
 extern abi_ulong       afl_persistent_addr;
 extern abi_ulong       afl_persistent_ret_addr;
