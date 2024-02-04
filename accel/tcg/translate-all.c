@@ -20,7 +20,7 @@
 #include "qemu/osdep.h"
 #include "qemu/units.h"
 #include "qemu-common.h"
-typedef unsigned int size
+typedef unsigned int size;
 
 #define NO_CPU_IO_DEFS
 #include "cpu.h"
