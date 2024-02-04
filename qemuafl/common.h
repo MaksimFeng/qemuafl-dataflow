@@ -45,7 +45,7 @@
 #define TSL_FD (FORKSRV_FD - 1)
 
 #define AFL_G2H g2h_untagged
-
+#define unsigned int size
 #if defined(TARGET_X86_64)
 #define api_regs x86_64_regs
 #elif defined(TARGET_I386)
