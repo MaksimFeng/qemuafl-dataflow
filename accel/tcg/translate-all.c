@@ -85,7 +85,7 @@ static int afl_track_unstable_log_fd(void) {
     return track_fd;
 }
 
-void HELPER(afl_maybe_log)(target_ulong cur_loc, target_ulong size) {
+void HELPER(afl_maybe_log)(target_ulong cur_loc, unsigned int size) {
   register uintptr_t afl_idx = cur_loc ^ afl_prev_loc;
 
 //   INC_AFL_AREA(afl_idx);
@@ -96,11 +96,13 @@ void HELPER(afl_maybe_log)(target_ulong cur_loc, target_ulong size) {
   afl_prev_loc = cur_loc >> 1;
 }
 
-void HELPER(afl_maybe_log_trace)(target_ulong cur_loc, target_ulong size) {
+void HELPER(afl_maybe_log_trace)(target_ulong cur_loc, unsigned int size) {
   register uintptr_t afl_idx = cur_loc;
 //   INC_AFL_AREA(afl_idx);
   UPDATE_AFL_AREA(afl_idx,size);
+
 }
+//changed here
 
 static target_ulong pc_hash(target_ulong x) {
     x = ((x >> 16) ^ x) * 0x45d9f3b;
@@ -110,7 +112,7 @@ static target_ulong pc_hash(target_ulong x) {
 }
 
 /* Generates TCG code for AFL's tracing instrumentation. */
-static void afl_gen_trace(target_ulong cur_loc, target_ulong size) {
+static void afl_gen_trace(target_ulong cur_loc, unsigned int size) {
 
   /* Optimize for cur_loc > afl_end_code, which is the most likely case on
      Linux systems. */
@@ -142,6 +144,7 @@ static void afl_gen_trace(target_ulong cur_loc, target_ulong size) {
     // gen_helper_afl_maybe_log(cur_loc_v);
     gen_helper_afl_maybe_log(cur_loc_v,size);
   }
+  //change here
   tcg_temp_free(cur_loc_v);
 
 }
