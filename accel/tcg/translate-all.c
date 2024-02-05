@@ -1962,7 +1962,7 @@ TranslationBlock *afl_gen_edge(CPUState *cpu, unsigned long afl_id)
     target_ulong afl_loc = afl_id & (MAP_SIZE -1);
     //*afl_dynamic_size = MAX(*afl_dynamic_size, afl_loc);
     TCGv tmp0 = tcg_const_tl(afl_loc);
-    gen_helper_afl_maybe_log(tmp0);
+    gen_helper_afl_maybe_log(tmp0, gen_code_size);
     tcg_temp_free(tmp0);
     tcg_gen_goto_tb(0);
     tcg_gen_exit_tb(tb, 0);

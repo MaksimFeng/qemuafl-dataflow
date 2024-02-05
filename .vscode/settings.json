@@ -65,6 +65,8 @@
     "initializer_list": "c",
     "utility": "c",
     "types.h": "c",
-    "*.idef": "c"
+    "*.idef": "c",
+    "helper-head.h": "c",
+    "typeinfo": "c"
   }
 }
