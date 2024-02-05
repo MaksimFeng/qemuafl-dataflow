@@ -85,6 +85,8 @@ static int afl_track_unstable_log_fd(void) {
     return track_fd;
 }
 
+#define target_ulong long unsigned int
+
 void HELPER(afl_maybe_log)(target_ulong cur_loc, unsigned int size) {
   register uintptr_t afl_idx = cur_loc ^ afl_prev_loc;
 
